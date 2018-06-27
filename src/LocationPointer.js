@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 const LocationPointer = (props) => {
 
     const windSpeedKmh = props.speed * 1.852001

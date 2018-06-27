@@ -6,17 +6,12 @@ import GoogleMap from 'google-map-react';
 import LocationPointer from './LocationPointer'
 import LocationDescription from './LocationDescription'
 import PropTypes from 'prop-types'
-// import SearchBox from './SearchBox';
-
-
-
-
 
 
 class MyMap extends Component {
     static defaultProps = {
-        center: [1.289670, 103.8500700],
-        zoom: 11,
+        center: [1.35, 103.8200700],
+        zoom: 11.25,
         // visibleRowFirst: -1,
         // visibleRowLast: -1,
         // hoveredRowIndex: -1
@@ -27,12 +22,14 @@ class MyMap extends Component {
         onPlacesChanged: PropTypes.func
     }
 
-
     constructor(props) {
         super(props);
         this.state = {
             stations: [],
-            windDirection: [],
+            userLocation: {
+                lat: undefined,
+                lng: undefined,
+            },
             createMapOptions: (maps) => {
                 return {
                     panControl: false,
@@ -64,21 +61,28 @@ class MyMap extends Component {
     }
 
     inputChangeHandler = () => {
-        console.log("Please work!", this.searchBox.getPlaces())
-        console.log("Please work!", this.searchBox.getPlaces().length)
 
-        if (this.searchBox.getPlaces().length > 0) {
-            console.log("lat", this.searchBox.getPlaces()[0].geometry.location.lat())
-            console.log("lng", this.searchBox.getPlaces()[0].geometry.location.lng())
-        }
+        const userLat = this.searchBox.getPlace().geometry.location.lat()
+        const userLng = this.searchBox.getPlace().geometry.location.lng()
+
+        this.setState({
+            userLocation: { lat: userLat, lng: userLng }
+
+        })
+
+
+        // console.log("lat", this.searchBox.getPlace().geometry.location.lat())
+        // console.log("lng", this.searchBox.getPlace().geometry.location.lng())
     }
 
     render() {
         return (
-            <div>
-                <input ref="input" {...this.props} type="text" />
+            <div className="main">
+                <div className="right-sidebar">
+                    <input className="input" placeholder="Enter your location" ref="input" {...this.props} type="text" />
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis similique accusamus praesentium nihil non recusandae, repellendus sed mollitia quos hic voluptatem suscipit incidunt atque rem aliquam vero? Voluptatem minima perspiciatis nam unde fuga asperiores ex. Quo itaque eos assumenda nulla dicta totam at molestiae voluptas sapiente magnam, possimus provident fugit non ipsa quos adipisci amet vero qui, aliquid ipsam saepe iure, corrupti quidem earum! Nesciunt, incidunt doloribus, facere aut ipsam velit quisquam veniam distinctio neque, explicabo in. Expedita, maxime veniam!</p>
+                </div>
                 <div className="map" style={{ height: '100vh', width: '100%' }}>
-
                     <GoogleMap
                         options={this.state.createMapOptions}
                         bootstrapURLKeys={{ key: 'AIzaSyDzw7Q7Z9N6BgOlBAmmxyRRSuCvx2iRxp8', libraries: 'places' }}
@@ -88,7 +92,7 @@ class MyMap extends Component {
                         onGoogleApiLoaded={this.onMapLoad}
                     >
 
-
+                        
 
                         {/* <SearchBox google={this.onMapLoad}/> */}
 
@@ -175,8 +179,11 @@ class MyMap extends Component {
         })
 
         var input = ReactDOM.findDOMNode(this.refs.input);
-        this.searchBox = new google.maps.places.SearchBox(input);
-        this.searchBox.addListener('places_changed', this.inputChangeHandler);
+        this.searchBox = new google.maps.places.Autocomplete(input, {
+            componentRestrictions: { country: 'sg' }
+        });
+        // console.log(this.searchBox)
+        this.searchBox.addListener('place_changed', this.inputChangeHandler);
 
     }
     componentWillUnmount() {

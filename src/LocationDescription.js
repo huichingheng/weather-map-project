@@ -1,5 +1,5 @@
 import React from 'react'
-import {directionDisplay} from './directionDisplay'
+import {distanceCalculator} from './directionDisplay'
 
 
 const LocationDescription = (props) => {
@@ -21,7 +21,7 @@ const LocationDescription = (props) => {
                 {`${props.text} `}
 
                 <ul className="stats">
-                    <li>Wind Direction: {directionDisplay(locationDetails.windDirection)} {locationDetails.windDirection}°</li>
+                    <li>Wind Direction: {distanceCalculator(locationDetails.windDirection)} {locationDetails.windDirection}°</li>
                     <li>Wind Speed (Km/h): {locationDetails.windSpeed} </li>
                     {(locationDetails.humidity !== undefined) ? <li>Humidity: {locationDetails.humidity}</li>: null }
                     {/* <li> {locationDetails.humidity}}</li> */}
