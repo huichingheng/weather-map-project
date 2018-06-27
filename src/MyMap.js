@@ -6,6 +6,9 @@ import GoogleMap from 'google-map-react';
 import LocationPointer from './LocationPointer'
 import LocationDescription from './LocationDescription'
 import PropTypes from 'prop-types'
+import UserLocation from './UserLocation';
+import { distanceCalculator } from './distanceCalculator'
+import { direcionDisplay } from './directionDisplay';
 
 
 class MyMap extends Component {
@@ -26,9 +29,15 @@ class MyMap extends Component {
         super(props);
         this.state = {
             stations: [],
+            center: {
+                lat: 1.35,
+                lng: 103.82007
+            },
             userLocation: {
                 lat: undefined,
                 lng: undefined,
+                userAddress: undefined,
+                nearestStation: undefined
             },
             createMapOptions: (maps) => {
                 return {
@@ -61,18 +70,33 @@ class MyMap extends Component {
     }
 
     inputChangeHandler = () => {
-
         const userLat = this.searchBox.getPlace().geometry.location.lat()
         const userLng = this.searchBox.getPlace().geometry.location.lng()
+        const userAddress = this.searchBox.getPlace().formatted_address
 
         this.setState({
-            userLocation: { lat: userLat, lng: userLng }
-
+            userLocation: { lat: userLat, lng: userLng, userAddress: userAddress }
         })
 
+        // Finding the nearest wind station
+        let x = Number.POSITIVE_INFINITY
+        let y
+        this.state.stations.forEach((station) => {
+            const dist = distanceCalculator(station.location.latitude, station.location.longitude, userLat, userLng)
 
-        // console.log("lat", this.searchBox.getPlace().geometry.location.lat())
-        // console.log("lng", this.searchBox.getPlace().geometry.location.lng())
+            if (dist < x) {
+                x = dist
+                y = station.id
+            }
+        })
+
+        const nearestStation = this.state.stations.find((station) => {
+            return station.id === y
+        })
+        this.setState({ nearestStation: nearestStation })
+        console.log("blah", nearestStation)
+        // console.log("the distance", x, "12321",y)
+
     }
 
     render() {
@@ -80,7 +104,23 @@ class MyMap extends Component {
             <div className="main">
                 <div className="right-sidebar">
                     <input className="input" placeholder="Enter your location" ref="input" {...this.props} type="text" />
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis similique accusamus praesentium nihil non recusandae, repellendus sed mollitia quos hic voluptatem suscipit incidunt atque rem aliquam vero? Voluptatem minima perspiciatis nam unde fuga asperiores ex. Quo itaque eos assumenda nulla dicta totam at molestiae voluptas sapiente magnam, possimus provident fugit non ipsa quos adipisci amet vero qui, aliquid ipsam saepe iure, corrupti quidem earum! Nesciunt, incidunt doloribus, facere aut ipsam velit quisquam veniam distinctio neque, explicabo in. Expedita, maxime veniam!</p>
+                    <ul className="searched-location-details"> 
+                        {(this.state.userLocation.lat !== undefined && (this.state.userLocation.lng !== undefined)) ?
+                            <div>
+                                <li>Lat: {this.state.userLocation.lat.toFixed(6)}</li>
+                                <li>Lng: {this.state.userLocation.lng.toFixed(6)}</li>
+                            </div>
+                            : null}
+
+                        {(this.state.userLocation.userAddress !== undefined) ? <li>Address: {this.state.userLocation.userAddress} </li> : null}
+
+
+                        {(this.state.nearestStation !== undefined) ?
+                            <div>
+                                <li>Wind Speed:  {(this.state.nearestStation.speed  * 1.852001).toFixed(2)} km/h - '{direcionDisplay(this.state.nearestStation.windBearing)}'</li>
+                                {(this.state.nearestStation.humidity !== undefined) ? <li>Humidity: {this.state.nearestStation.humidity}</li>: null }
+                            </div> : null}
+                    </ul>
                 </div>
                 <div className="map" style={{ height: '100vh', width: '100%' }}>
                     <GoogleMap
@@ -92,9 +132,10 @@ class MyMap extends Component {
                         onGoogleApiLoaded={this.onMapLoad}
                     >
 
-                        
+                        <UserLocation
+                            lat={this.state.userLocation.lat}
+                            lng={this.state.userLocation.lng} />
 
-                        {/* <SearchBox google={this.onMapLoad}/> */}
 
                         {this.state.stations.map((area, index) => {
                             return <LocationPointer
@@ -173,6 +214,7 @@ class MyMap extends Component {
 
                 return associatedStations
             })
+
 
         this.setState({
             stations: stationConsolidatedData

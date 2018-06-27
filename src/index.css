@@ -14,7 +14,8 @@ body {
   grid-column: 1 / 2;
   background: lightyellow;
   border-right: 3px double brown;
-  padding: 0 20px;
+  border-left: 3px double brown;
+  ;
 }
 
 .map{
@@ -24,9 +25,21 @@ body {
 
 .input{
   margin-top: 10px;
-  width: 100%;
+  width: 80%;
   font-size: 18px;
-  padding: 5px 0;
+  padding: 5px;
+  margin: 10px;
+}
+
+.here{
+  background-image: url("./map-icon.png");
+  height: 45px;
+  width: 45px;
+  background-repeat: no-repeat;
+  position:absolute;
+  background-size: contain;
+  transform: translate(-50%,-100%);
+  animation: backwards
 }
 
 .marker{
@@ -43,7 +56,9 @@ body {
   
 }
 
-.marker:after, .marker:before {
+
+
+/* .marker:after, .marker:before {
 	bottom: 100%;
 	left: 50%;
 	border: solid transparent;
@@ -53,7 +68,7 @@ body {
 	position: absolute;
   pointer-events: none;
   border-radius: 50%;
-}
+} */
 
 
 .text{
