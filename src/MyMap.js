@@ -10,6 +10,7 @@ import getNearestStation from './getNearestStation'
 import getNearestArea from './getNearestArea'
 import GeneralIsland from './GeneralIsland';
 import UserSelectedLocation from './UserSelectedLocation';
+import RainIntensity from './RainIntensity';
 
 class MyMap extends Component {
     static defaultProps = {
@@ -48,9 +49,6 @@ class MyMap extends Component {
                         stylers: [
                             { 'saturation': -20 },
                             { 'visibility': 'on' }
-                            // More options if necessary
-                            // { 'gamma': 0.1 },
-                            // { 'lightness': 4 },
                         ]
                     }],
 
@@ -77,7 +75,8 @@ class MyMap extends Component {
 
         // Set User Selected Address
         this.setState({
-            userLocation: { ...this.state.userLocation, lat: userLat, lng: userLng, userAddress: userAddress }})
+            userLocation: { ...this.state.userLocation, lat: userLat, lng: userLng, userAddress: userAddress }
+        })
 
         // Find Nearest Wind Station
         const nearestStation = getNearestStation(this.state.stations, userLat, userLng)
@@ -99,6 +98,8 @@ class MyMap extends Component {
                         <input className="input" placeholder="Enter your location" ref="input" {...this.props} type="text" />
                     </div>
 
+
+
                     {(this.state.userLocation !== undefined) ?
                         <UserSelectedLocation
                             userLocation={this.state.userLocation}
@@ -110,6 +111,7 @@ class MyMap extends Component {
                             generalData={this.state.generalWeather.general}
                             period0={this.state.generalWeather.period0}
                         /> : null}
+                    <RainIntensity />
                 </div>
 
                 <div className="map">
@@ -120,6 +122,7 @@ class MyMap extends Component {
                         zoom={this.props.zoom}
                         yesIWantToUseGoogleMapApiInternals
                         onGoogleApiLoaded={this.onMapLoad}>
+
 
                         <UserLocation
                             lat={this.state.userLocation.lat}

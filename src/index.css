@@ -40,6 +40,16 @@ h4{
   margin: 0 auto;
 }
 
+.rain-intensity{
+  background-image: url("./rain-intensity.png");
+  height: 28px;
+  width: 85%;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  /* box-sizing: border-box; */
+  background-size: contain;
+}
+
 .input-holder{
   width: 85%;
   margin: 10px auto;
@@ -55,7 +65,7 @@ h4{
 }
 
 .searched-location-details{
-  background: rgba(255, 99, 71, 0.733);
+  background: rgba(248, 231, 155, 0.596);
   padding: 15px;
   width: 85%;
   margin: 10px auto;
