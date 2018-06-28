@@ -11,13 +11,13 @@ import { getNowCastData, getWindStationData, getGeneralData } from './dataNEA'
 import timeFormatter from './timeFormatter'
 
 const getNearestStation = (stations, userLat, userLng) => {
-    let stationStoring = Number.POSITIVE_INFINITY
+    let distanceCounter = Number.POSITIVE_INFINITY
         let closestWeatherStationToStation
         stations.forEach((station) => {
             const dist = distanceCalculator(station.location.latitude, station.location.longitude, userLat, userLng)
 
-            if (dist < stationStoring) {
-                stationStoring = dist
+            if (dist < distanceCounter) {
+                distanceCounter = dist
                 closestWeatherStationToStation = station.id
             }
         })
