@@ -44,7 +44,7 @@ h4{
   background-image: url("./rain-intensity.png");
   height: 28px;
   width: 85%;
-  margin: 0 auto;
+  margin: 10px auto;
   background-repeat: no-repeat;
   /* box-sizing: border-box; */
   background-size: contain;
