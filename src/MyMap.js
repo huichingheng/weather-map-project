@@ -10,6 +10,22 @@ import { direcionDisplay } from './directionDisplay';
 import { getNowCastData, getWindStationData, getGeneralData } from './dataNEA'
 import timeFormatter from './timeFormatter'
 
+const getNearestStation = (stations, userLat, userLng) => {
+    let stationStoring = Number.POSITIVE_INFINITY
+        let closestWeatherStationToStation
+        stations.forEach((station) => {
+            const dist = distanceCalculator(station.location.latitude, station.location.longitude, userLat, userLng)
+
+            if (dist < stationStoring) {
+                stationStoring = dist
+                closestWeatherStationToStation = station.id
+            }
+        })
+        const nearestStation = stations.find((station) => {
+            return station.id === closestWeatherStationToStation
+        })
+        return nearestStation
+}
 
 class MyMap extends Component {
     static defaultProps = {
@@ -79,19 +95,7 @@ class MyMap extends Component {
         })
 
         // Finding the nearest wind station
-        let stationStoring = Number.POSITIVE_INFINITY
-        let closestWeatherStationToStation
-        this.state.stations.forEach((station) => {
-            const dist = distanceCalculator(station.location.latitude, station.location.longitude, userLat, userLng)
-
-            if (dist < stationStoring) {
-                stationStoring = dist
-                closestWeatherStationToStation = station.id
-            }
-        })
-        const nearestStation = this.state.stations.find((station) => {
-            return station.id === closestWeatherStationToStation
-        })
+        const nearestStation = getNearestStation(this.state.stations, userLat, userLng)
         this.setState({ userLocation: { ...this.state.userLocation, nearestStation: nearestStation } })
 
 
