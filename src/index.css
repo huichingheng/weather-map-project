@@ -19,9 +19,7 @@ h4{
   grid-auto-rows: minmax(100px, auto);
 }
 
-@media query{
-  
-}
+
 
 .right-sidebar{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -134,4 +132,18 @@ h4{
 
 .stats{
   padding: 0;
+}
+
+@media screen and (max-width: 960px){
+  .main{
+    grid-template-columns: 1fr;
+  }
+  .map{
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .right-sidebar{
+    border-right: none;
+  }
 }
