@@ -168,11 +168,19 @@ h4{
     background-repeat: no-repeat;
     margin-bottom: 15px;
   }
+
+  .rain-intensity {
+    background-image: url("./rain-intensity-long.png");
+  }
 }
 
 @media screen and (max-width: 480px){
   .wind-high, .wind-med, .wind-low{
     width: 25px;
     height: 25px;
+  }
+
+  .rain-intensity {
+    background-image: url("./rain-intensity.png");
   }
 }
