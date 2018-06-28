@@ -162,7 +162,7 @@ h4{
 
 @media screen and (max-width: 480px){
   .wind-high, .wind-med, .wind-low{
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
 }
