@@ -144,10 +144,6 @@ h4{
   }
   .main{
     grid-template-columns: 1fr;
-    /* width: 90%; */
-    /* margin: 0 auto; */
-    /* padding: 10px 0; */
-    /* border: 2px solid brown; */
   }
   .map{
     grid-column: 1 / 2;
@@ -161,5 +157,12 @@ h4{
     background: none;
     background-repeat: no-repeat;
     margin-bottom: 15px;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .wind-high, .wind-med, .wind-low{
+    width: 30px;
+    height: 30px;
   }
 }
