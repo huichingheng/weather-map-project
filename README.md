@@ -3,10 +3,10 @@
 * Displays overall island weather forecast
 * Displays user specified locality weather data
 
-*User specified locality's wind data is pulled from the closest wind station, denoted by the arrows on the map*
-*User specified locality's Nowcast (2 Hrs) is pulled from the closest forcast measuring areas*
-*Rain intensity radar overlay data from (https://rain-geojson-sg.now.sh/now)*
-*All other fetched data from NEA*
+* *User specified locality's wind data is pulled from the closest wind station, denoted by the arrows on the map*
+* *User specified locality's Nowcast (2 Hrs) is pulled from the closest forcast measuring areas*
+* *Rain intensity radar overlay data from (https://rain-geojson-sg.now.sh/now)*
+* *All other fetched data from NEA*
 
 ## Link to page
 [Weather App](https://kod2nd-weather-app.netlify.com/)
