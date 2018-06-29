@@ -98,8 +98,6 @@ class MyMap extends Component {
                         <input className="input" placeholder="Enter your location" ref="input" {...this.props} type="text" />
                     </div>
 
-
-
                     {(this.state.userLocation !== undefined) ?
                         <UserSelectedLocation
                             userLocation={this.state.userLocation}
@@ -111,7 +109,10 @@ class MyMap extends Component {
                             generalData={this.state.generalWeather.general}
                             period0={this.state.generalWeather.period0}
                         /> : null}
+
+                    
                     <RainIntensity />
+
                 </div>
 
                 <div className="map">
@@ -122,7 +123,6 @@ class MyMap extends Component {
                         zoom={this.props.zoom}
                         yesIWantToUseGoogleMapApiInternals
                         onGoogleApiLoaded={this.onMapLoad}>
-
 
                         <UserLocation
                             lat={this.state.userLocation.lat}
