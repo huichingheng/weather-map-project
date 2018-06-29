@@ -12,10 +12,16 @@ import UserSelectedLocation from './UserSelectedLocation';
 import RainIntensity from './RainIntensity';
 import UserLocationDescription from './UserLocationDescription';
 
+const mediaQuery = () => {
+    if (window.matchMedia("(max-width: 480px)").matches){
+        return 10
+    } else  return 11.5
+}
+
 class MyMap extends Component {
     static defaultProps = {
         center: [1.35, 103.8200700],
-        zoom: 11.25,
+        zoom: mediaQuery(),
     };
 
     static propTypes = {
