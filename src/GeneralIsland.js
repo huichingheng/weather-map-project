@@ -13,7 +13,7 @@ const GeneralIsland = (props) => (
                     </ul>
                 </div>
                 <div>
-                    <h4>Zone Forcast ({timeFormatter(
+                    <h4>Zone Forecast ({timeFormatter(
                         props.period0.validityPeriod.start)}hrs to {timeFormatter(
                             props.period0.validityPeriod.end)}hrs)</h4>
                     <ul className="searched-list">
