@@ -58,6 +58,7 @@ h4{
   background-repeat: no-repeat;
   /* box-sizing: border-box; */
   background-size: contain;
+  margin-bottom: 15px;
 }
 
 .input-holder{

@@ -13,7 +13,7 @@ import RainIntensity from './RainIntensity';
 import UserLocationDescription from './UserLocationDescription';
 
 const mediaQuery = () => {
-    if (window.matchMedia("(max-width: 480px)").matches){
+    if (window.matchMedia("(max-width: 960px)").matches){
         return 10
     } else  return 11.5
 }
