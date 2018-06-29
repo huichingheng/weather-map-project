@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import GoogleMap from 'google-map-react';
 import LocationPointer from './LocationPointer'
-import LocationDescription from './LocationDescription'
 import PropTypes from 'prop-types'
 import UserLocation from './UserLocation';
 import { getNowCastData, getWindStationData, getGeneralData } from './dataNEA'
@@ -11,6 +10,7 @@ import getNearestArea from './getNearestArea'
 import GeneralIsland from './GeneralIsland';
 import UserSelectedLocation from './UserSelectedLocation';
 import RainIntensity from './RainIntensity';
+import UserLocationDescription from './UserLocationDescription';
 
 class MyMap extends Component {
     static defaultProps = {
@@ -101,6 +101,7 @@ class MyMap extends Component {
                     {(this.state.userLocation !== undefined) ?
                         <UserSelectedLocation
                             userLocation={this.state.userLocation}
+                            className= {"searched-location-details"}
                         /> : null}
 
                     {(this.state.generalWeather !== undefined) ?
@@ -108,7 +109,7 @@ class MyMap extends Component {
                             generalWeather={this.state.generalWeather}
                             generalData={this.state.generalWeather.general}
                             period0={this.state.generalWeather.period0}
-                        /> : null}
+                        /> : <div className="is-loading"></div>}
 
                     
                     <RainIntensity />
@@ -128,6 +129,12 @@ class MyMap extends Component {
                             lat={this.state.userLocation.lat}
                             lng={this.state.userLocation.lng} />
 
+                        <UserLocationDescription 
+                            lat={this.state.userLocation.lat}
+                            lng={this.state.userLocation.lng}
+                            userLocation={this.state.userLocation}
+                        />
+
                         {this.state.stations.map((area, index) => {
                             return <LocationPointer
                                 key={index}
@@ -136,17 +143,6 @@ class MyMap extends Component {
                                 lng={area.location.longitude}
                                 angle={area.windBearing}
                                 speed={area.speed} />
-                        })}
-
-                        {this.state.stations.map((area, index) => {
-                            return <LocationDescription
-                                key={index}
-                                lat={area.location.latitude}
-                                lng={area.location.longitude}
-                                text={area.name}
-                                speed={area.speed}
-                                angle={area.windBearing}
-                                humidity={area.humidity} />
                         })}
                     </GoogleMap>
                 </div>

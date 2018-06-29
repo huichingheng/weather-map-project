@@ -1,4 +1,4 @@
-export const direcionDisplay = (bearing) => {
+export const directionDisplay = (bearing) => {
     
     const angleAdder = [0, 45, 90, 135, 180, 225, 270, 315, 360]
     const startAngle = 22.5

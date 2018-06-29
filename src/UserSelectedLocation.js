@@ -1,8 +1,8 @@
 import React from 'react';
-import { direcionDisplay } from './directionDisplay';
+import { directionDisplay } from './directionDisplay';
 
 const UserSelectedLocation = (props) => (
-    <div className={(props.userLocation.lat !== undefined) ? "searched-location-details" : ""}>
+    <div className={(props.userLocation.lat !== undefined) ? props.className : ""}>
         {(props.userLocation.lat !== undefined && props.userLocation.nearestArea !== undefined) ? <h4>Location Details ({(props.userLocation.nearestArea.name)})</h4> : null}
         <ul className="searched-list">
             {(props.userLocation.lat !== undefined && (props.userLocation.lng !== undefined)) ?
@@ -16,7 +16,7 @@ const UserSelectedLocation = (props) => (
             {(props.userLocation.nearestStation !== undefined) ?
                 <div>
                     {(props.userLocation.nearestStation.speed !== undefined) ?
-                        <li>Wind Speed:  {(props.userLocation.nearestStation.speed * 1.852001).toFixed(2)} km/h - '{direcionDisplay(props.userLocation.nearestStation.windBearing)}'</li> : null}
+                        <li>Wind Speed:  {(props.userLocation.nearestStation.speed * 1.852001).toFixed(2)} km/h - '{directionDisplay(props.userLocation.nearestStation.windBearing)}'</li> : null}
 
                     {(props.userLocation.nearestStation.humidity !== undefined) ? <li>Humidity: {props.userLocation.nearestStation.humidity}</li> : null}
                 </div> : null}
