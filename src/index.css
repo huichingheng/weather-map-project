@@ -11,6 +11,13 @@ h2{
   width: 85%
 }
 
+p{
+  margin: 0;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
 h4{
   margin: 0;
 }
@@ -56,9 +63,7 @@ h4{
   width: 85%;
   margin: 10px auto;
   background-repeat: no-repeat;
-  /* box-sizing: border-box; */
   background-size: contain;
-  margin-bottom: 15px;
 }
 
 .input-holder{
@@ -158,6 +163,28 @@ h4{
   background-image: url('./wind-strong.png');
 }
 
+.wind-legend-icons{
+  height: auto;
+  width: 10px;
+  transform: rotate(90deg);
+  margin-top: 5px;
+}
+
+#wind-legend-wrapper{
+  width: 85%;
+  margin: 10px auto;
+  margin-bottom: 15px;
+}
+
+#wind-legend-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.wind-icon-desc{
+  text-align: center
+}
+
 .stats{
   padding: 0;
 }
@@ -181,17 +208,25 @@ h4{
     border-bottom: 5px double darkblue;
     background: none;
     background-repeat: no-repeat;
-    /* margin-bottom: 15px; */
   }
 
-  .rain-intensity {
+  /* .rain-intensity {
     background-image: url("./rain-intensity-long.png");
+  } */
+
+  .legend{
+    display: grid;
+    grid-template-columns: 1fr 1fr
   }
 }
 
 #rain-intensity-header{
   width: 85%;
   margin: 10px auto;
+}
+
+.rain-intensity{
+  /* margin-top: 18px; */
 }
 
 .wind-high, .wind-med, .wind-low{
@@ -205,7 +240,7 @@ h4{
     height: 25px;
   }
 
-  .rain-intensity {
-    background-image: url("./rain-intensity.png");
+  .legend {
+    grid-template-columns: 1fr
   }
 }

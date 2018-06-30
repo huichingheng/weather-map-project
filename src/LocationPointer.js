@@ -4,8 +4,8 @@ const LocationPointer = (props) => {
 
     const windSpeedKmh = props.speed * 1.852001
     const windStrengths = {
-        high: 20,
-        low: 7.5
+        high: props.high,
+        low: props.low
     }
     const windStrength = () => {
         if (windSpeedKmh > windStrengths.high) {

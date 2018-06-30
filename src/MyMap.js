@@ -9,13 +9,13 @@ import getNearestStation from './getNearestStation'
 import getNearestArea from './getNearestArea'
 import GeneralIsland from './GeneralIsland';
 import UserSelectedLocation from './UserSelectedLocation';
-import RainIntensity from './RainIntensity';
 import UserLocationDescription from './UserLocationDescription';
+import Legend from './Legend';
 
 const mediaQuery = () => {
-    if (window.matchMedia("(max-width: 960px)").matches){
+    if (window.matchMedia("(max-width: 960px)").matches) {
         return 10
-    } else  return 11.5
+    } else return 11.5
 }
 
 class MyMap extends Component {
@@ -46,6 +46,10 @@ class MyMap extends Component {
             },
             nowCast: [],
             generalWeather: undefined,
+            windStrength: {
+                high: 20,
+                low: 7.5
+            },
             createMapOptions: (maps) => {
                 return {
                     panControl: false,
@@ -107,7 +111,7 @@ class MyMap extends Component {
                     {(this.state.userLocation !== undefined) ?
                         <UserSelectedLocation
                             userLocation={this.state.userLocation}
-                            className= {"searched-location-details"}
+                            className={"searched-location-details"}
                         /> : null}
 
                     {(this.state.generalWeather !== undefined) ?
@@ -117,8 +121,11 @@ class MyMap extends Component {
                             period0={this.state.generalWeather.period0}
                         /> : <div className="is-loading"></div>}
 
-                    
-                    <RainIntensity />
+                    <Legend
+                        high={this.state.windStrength.high}
+                        low={this.state.windStrength.low} 
+                        />
+
 
                 </div>
 
@@ -135,7 +142,7 @@ class MyMap extends Component {
                             lat={this.state.userLocation.lat}
                             lng={this.state.userLocation.lng} />
 
-                        <UserLocationDescription 
+                        <UserLocationDescription
                             lat={this.state.userLocation.lat}
                             lng={this.state.userLocation.lng}
                             userLocation={this.state.userLocation}
@@ -148,7 +155,9 @@ class MyMap extends Component {
                                 lat={area.location.latitude}
                                 lng={area.location.longitude}
                                 angle={area.windBearing}
-                                speed={area.speed} />
+                                speed={area.speed}
+                                high={this.state.windStrength.high}
+                                low={this.state.windStrength.low} />
                         })}
                     </GoogleMap>
                 </div>

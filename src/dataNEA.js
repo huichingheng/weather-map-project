@@ -1,16 +1,20 @@
 export const getNowCastData = async () => {
+    console.log("called nowCast")
     const nowCastResponse = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast', { mode: 'cors' })
-    const dataNowCast = await nowCastResponse.json()
-    const forecastLocation = dataNowCast.area_metadata
-    const forecastValues = dataNowCast.items[0].forecasts
+    console.log("nowCast health, HOW DO I FIX THESE FETCHINGS!:", nowCastResponse.ok)
+    if (nowCastResponse.ok) {
+        const dataNowCast = await nowCastResponse.json()
+        const forecastLocation = dataNowCast.area_metadata
+        const forecastValues = dataNowCast.items[0].forecasts
 
-    return forecastLocation.map((location) => {
-        const forecastValueToAppend = forecastValues.find((object) => {
-            return object.area === location.name
+        return forecastLocation.map((location) => {
+            const forecastValueToAppend = forecastValues.find((object) => {
+                return object.area === location.name
+            })
+            location.forecast = forecastValueToAppend.forecast
+            return location
         })
-        location.forecast = forecastValueToAppend.forecast
-        return location
-    })
+    } else return setInterval(getNowCastData(), 3000)
 }
 
 export const getWindStationData = async () => {
@@ -65,23 +69,27 @@ export const getWindStationData = async () => {
     return stationConsolidatedData
 }
 
- // ====General 24 Hour Forecast ========
-export const getGeneralData = async() => {
+// ====General 24 Hour Forecast ========
+export const getGeneralData = async () => {
+    console.log("called General Cast")
     const generalForecastResponse = await fetch('https://api.data.gov.sg/v1/environment/24-hour-weather-forecast', { mode: 'cors' })
-    const dataGeneralForecast = await generalForecastResponse.json()
-    const generalWeather = dataGeneralForecast.items[0]
-    const period0 = generalWeather.periods[0]
+    console.log("General forecast health:", generalForecastResponse.ok)
+    if (generalForecastResponse.ok) {
+        const dataGeneralForecast = await generalForecastResponse.json()
+        const generalWeather = dataGeneralForecast.items[0]
+        const period0 = generalWeather.periods[0]
 
-    return {
-        general: {
-            forecast: generalWeather.general.forecast,
-            humidity: generalWeather.general.relative_humidity,
-            temperature: generalWeather.general.temperature
-        },
-        period0: {
-            regions: period0.regions,
-            validityPeriod: period0.time
+        return {
+            general: {
+                forecast: generalWeather.general.forecast,
+                humidity: generalWeather.general.relative_humidity,
+                temperature: generalWeather.general.temperature
+            },
+            period0: {
+                regions: period0.regions,
+                validityPeriod: period0.time
+            }
         }
-    }
+    } else return setInterval(await getGeneralData(), 5000)
 
 }
