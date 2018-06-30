@@ -18,6 +18,8 @@ const mediaQuery = () => {
     } else return 11.5
 }
 
+
+
 class MyMap extends Component {
     static defaultProps = {
         center: [1.35, 103.8200700],
@@ -99,6 +101,14 @@ class MyMap extends Component {
 
 
     render() {
+        const onMapClick = (mapClick) => {
+            const nearestArea = getNearestArea(this.state.nowCast, mapClick.lat, mapClick.lng)
+            const nearestStation = getNearestStation(this.state.stations, mapClick.lat, mapClick.lng)
+            this.setState({
+                userLocation: { ...this.state.userLocation, lat: mapClick.lat, lng: mapClick.lng, userAddress: null, nearestArea: nearestArea, nearestStation: nearestStation  }
+            })            
+        }
+
         return (
             <div className="main">
                 <div className="right-sidebar">
@@ -123,8 +133,8 @@ class MyMap extends Component {
 
                     <Legend
                         high={this.state.windStrength.high}
-                        low={this.state.windStrength.low} 
-                        />
+                        low={this.state.windStrength.low}
+                    />
 
 
                 </div>
@@ -136,9 +146,11 @@ class MyMap extends Component {
                         center={this.props.center}
                         zoom={this.props.zoom}
                         yesIWantToUseGoogleMapApiInternals
-                        onGoogleApiLoaded={this.onMapLoad}>
+                        onGoogleApiLoaded={this.onMapLoad}
+                        onClick={onMapClick}>
 
-                        <UserLocation
+
+                        < UserLocation
                             lat={this.state.userLocation.lat}
                             lng={this.state.userLocation.lng} />
 
@@ -148,17 +160,19 @@ class MyMap extends Component {
                             userLocation={this.state.userLocation}
                         />
 
-                        {this.state.stations.map((area, index) => {
-                            return <LocationPointer
-                                key={index}
-                                index={index}
-                                lat={area.location.latitude}
-                                lng={area.location.longitude}
-                                angle={area.windBearing}
-                                speed={area.speed}
-                                high={this.state.windStrength.high}
-                                low={this.state.windStrength.low} />
-                        })}
+                        {
+                            this.state.stations.map((area, index) => {
+                                return <LocationPointer
+                                    key={index}
+                                    index={index}
+                                    lat={area.location.latitude}
+                                    lng={area.location.longitude}
+                                    angle={area.windBearing}
+                                    speed={area.speed}
+                                    high={this.state.windStrength.high}
+                                    low={this.state.windStrength.low} />
+                            })
+                        }
                     </GoogleMap>
                 </div>
             </div>
@@ -184,6 +198,8 @@ class MyMap extends Component {
         this.searchBox = new window.google.maps.places.Autocomplete(input,
             { componentRestrictions: { country: 'sg' } });
         this.searchBox.addListener('place_changed', this.inputChangeHandler);
+
+
 
     }
     componentWillUnmount() {
