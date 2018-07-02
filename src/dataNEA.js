@@ -74,22 +74,26 @@ export const getGeneralData = async () => {
     console.log("called General Cast")
     const generalForecastResponse = await fetch('https://api.data.gov.sg/v1/environment/24-hour-weather-forecast', { mode: 'cors' })
     console.log("General forecast health:", generalForecastResponse.ok)
+    
     if (generalForecastResponse.ok) {
         const dataGeneralForecast = await generalForecastResponse.json()
         const generalWeather = dataGeneralForecast.items[0]
-        const period0 = generalWeather.periods[0]
-
-        return {
-            general: {
-                forecast: generalWeather.general.forecast,
-                humidity: generalWeather.general.relative_humidity,
-                temperature: generalWeather.general.temperature
-            },
-            period0: {
-                regions: period0.regions,
-                validityPeriod: period0.time
+        // When NEA dataset is not blank
+        if (generalWeather.length > 0){
+            const period0 = generalWeather.periods[0]
+            
+            return {
+                general: {
+                    forecast: generalWeather.general.forecast,
+                    humidity: generalWeather.general.relative_humidity,
+                    temperature: generalWeather.general.temperature
+                },
+                period0: {
+                    regions: period0.regions,
+                    validityPeriod: period0.time
+                }
             }
         }
-    } else return setInterval(await getGeneralData(), 5000)
-
-}
+        } else return setInterval(await getGeneralData(), 5000)
+        
+    }
