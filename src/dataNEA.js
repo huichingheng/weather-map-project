@@ -1,8 +1,7 @@
 export const getNowCastData = async () => {
-    console.log("called nowCast")
-    const nowCastResponse = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast', { mode: 'cors' })
-    console.log("nowCast health, HOW DO I FIX THESE FETCHINGS!:", nowCastResponse.ok)
-    if (nowCastResponse.ok) {
+    try {
+        const nowCastResponse = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast', { mode: 'cors' })
+
         const dataNowCast = await nowCastResponse.json()
         const forecastLocation = dataNowCast.area_metadata
         const forecastValues = dataNowCast.items[0].forecasts
@@ -14,7 +13,36 @@ export const getNowCastData = async () => {
             location.forecast = forecastValueToAppend.forecast
             return location
         })
-    } else return setInterval(getNowCastData(), 3000)
+    }
+    catch (error) {
+        console.log(error)
+        console.log("refreshing app")
+        setInterval(getNowCastData(), 3000)
+    }
+}
+
+export const getAirTempData = async () => {
+    try {
+        const airTempResponse = await fetch('https://api.data.gov.sg/v1/environment/air-temperature', { mode: 'cors' })
+
+        const dataAirTemp = await airTempResponse.json()
+        console.log(dataAirTemp)
+        const airTempStation = dataAirTemp.metadata.stations
+        const airTempValues = dataAirTemp.items[0].readings
+        
+        return airTempStation.map((station) => {
+            const airTempValueToAppend = airTempValues.find((object) => {
+                return object.station_id === station.id
+            })
+            station.airTemp = airTempValueToAppend.value
+            return station
+        })
+    }
+    catch (error) {
+        console.log(error)
+        console.log("refreshing app")
+        setInterval(getNowCastData(), 3000)
+    }
 }
 
 export const getWindStationData = async () => {
@@ -49,6 +77,7 @@ export const getWindStationData = async () => {
         return associatedStations
     })
 
+
     // ====Wind Speed====
     const responseWindSpeed = await fetch('https://api.data.gov.sg/v1/environment/wind-speed')
     const dataWindSpeed = await responseWindSpeed.json()
@@ -71,17 +100,15 @@ export const getWindStationData = async () => {
 
 // ====General 24 Hour Forecast ========
 export const getGeneralData = async () => {
-    console.log("called General Cast")
-    const generalForecastResponse = await fetch('https://api.data.gov.sg/v1/environment/24-hour-weather-forecast', { mode: 'cors' })
-    console.log("General forecast health:", generalForecastResponse.ok)
+    try {
+        const generalForecastResponse = await fetch('https://api.data.gov.sg/v1/environment/24-hour-weather-forecast', { mode: 'cors' })
     
-    if (generalForecastResponse.ok) {
         const dataGeneralForecast = await generalForecastResponse.json()
         const generalWeather = dataGeneralForecast.items[0]
         // When NEA dataset is not blank
-        if (generalWeather.length > 0){
+        if (generalWeather.length > 0) {
             const period0 = generalWeather.periods[0]
-            
+    
             return {
                 general: {
                     forecast: generalWeather.general.forecast,
@@ -94,6 +121,14 @@ export const getGeneralData = async () => {
                 }
             }
         }
-        } else return setInterval(await getGeneralData(), 5000)
         
+    } 
+    catch (error) {
+        console.log(error)
+        console.log("restarting")
+        setInterval(await getGeneralData(), 5000)
     }
+
+
+
+}

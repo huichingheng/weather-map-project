@@ -4,13 +4,14 @@ import GoogleMap from 'google-map-react';
 import LocationPointer from './LocationPointer'
 import PropTypes from 'prop-types'
 import UserLocation from './UserLocation';
-import { getNowCastData, getWindStationData, getGeneralData } from './dataNEA'
+import { getNowCastData, getWindStationData, getGeneralData, getAirTempData } from './dataNEA'
 import getNearestStation from './getNearestStation'
 import getNearestArea from './getNearestArea'
 import GeneralIsland from './GeneralIsland';
 import UserSelectedLocation from './UserSelectedLocation';
 import UserLocationDescription from './UserLocationDescription';
 import Legend from './Legend';
+
 
 const mediaQuery = () => {
     if (window.matchMedia("(max-width: 960px)").matches) {
@@ -47,6 +48,7 @@ class MyMap extends Component {
                 nearestArea: undefined
             },
             nowCast: [],
+            airTemp:[],
             generalWeather: undefined,
             windStrength: {
                 high: 20,
@@ -89,6 +91,10 @@ class MyMap extends Component {
         this.setState({
             userLocation: { ...this.state.userLocation, lat: userLat, lng: userLng, userAddress: userAddress }
         })
+
+        // Find Nearest Air Temp Station
+       
+
 
         // Find Nearest Wind Station
         const nearestStation = getNearestStation(this.state.stations, userLat, userLng)
@@ -192,6 +198,12 @@ class MyMap extends Component {
         this.setState({
             stations: await getWindStationData()
         })
+
+    
+        this.setState({
+            airTemp: await getAirTempData()
+        })
+
 
         // Google Maps search box
         var input = ReactDOM.findDOMNode(this.refs.input);
