@@ -130,7 +130,9 @@ class MyMap extends Component {
                             className={"searched-location-details"}
                         /> : null}
 
-                    {(this.state.generalWeather !== undefined && this.state.generalWeather.period[0] !== undefined) ?
+                    {(this.state.generalWeather !== undefined 
+                    // && this.state.generalWeather.period[0] !== undefined
+                ) ?
                         <GeneralIsland
                             generalWeather={this.state.generalWeather}
                             generalData={this.state.generalWeather.general}

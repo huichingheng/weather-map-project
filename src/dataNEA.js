@@ -106,7 +106,8 @@ export const getGeneralData = async () => {
         const dataGeneralForecast = await generalForecastResponse.json()
         const generalWeather = dataGeneralForecast.items[0]
         // When NEA dataset is not blank
-        if (generalWeather.length > 0) {
+        console.log("generalWeatherData",generalWeather)
+        if (Object.keys(generalWeather).length > 0) {
             const period0 = generalWeather.periods[0]
     
             return {
