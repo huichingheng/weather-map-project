@@ -10,6 +10,7 @@ import getNearestArea from './getNearestArea'
 import GeneralIsland from './GeneralIsland';
 import UserSelectedLocation from './UserSelectedLocation';
 import UserLocationDescription from './UserLocationDescription';
+import mapClickBound from './mapClickBound';
 import Legend from './Legend';
 
 
@@ -106,12 +107,14 @@ class MyMap extends Component {
 
     render() {
         const onMapClick = (mapClick) => {
-            const nearestArea = getNearestArea(this.state.nowCast, mapClick.lat, mapClick.lng)
-            const nearestStation = getNearestStation(this.state.stations, mapClick.lat, mapClick.lng)
-            const nearestTempStation = getNearestStation(this.state.airTemp, mapClick.lat, mapClick.lng)
-            this.setState({
-                userLocation: { ...this.state.userLocation, lat: mapClick.lat, lng: mapClick.lng, userAddress: null, nearestArea: nearestArea, nearestStation: nearestStation, nearestTempStation: nearestTempStation }
-            })
+            if(mapClickBound(mapClick)){
+                const nearestArea = getNearestArea(this.state.nowCast, mapClick.lat, mapClick.lng)
+                const nearestStation = getNearestStation(this.state.stations, mapClick.lat, mapClick.lng)
+                const nearestTempStation = getNearestStation(this.state.airTemp, mapClick.lat, mapClick.lng)
+                this.setState({
+                    userLocation: { ...this.state.userLocation, lat: mapClick.lat, lng: mapClick.lng, userAddress: null, nearestArea: nearestArea, nearestStation: nearestStation, nearestTempStation: nearestTempStation }
+                })
+            }
         }
         return (
             <div className="main">
