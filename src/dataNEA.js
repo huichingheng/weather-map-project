@@ -1,3 +1,4 @@
+
 export const getNowCastData = async () => {
     try {
         const nowCastResponse = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast', { mode: 'cors' })
@@ -17,7 +18,7 @@ export const getNowCastData = async () => {
     catch (error) {
         console.log(error)
         console.log("refreshing app")
-        setInterval(getNowCastData(), 3000)
+        setInterval(getNowCastData(), 10000)
     }
 }
 
@@ -26,7 +27,7 @@ export const getAirTempData = async () => {
         const airTempResponse = await fetch('https://api.data.gov.sg/v1/environment/air-temperature', { mode: 'cors' })
 
         const dataAirTemp = await airTempResponse.json()
-        console.log(dataAirTemp)
+        
         const airTempStation = dataAirTemp.metadata.stations
         const airTempValues = dataAirTemp.items[0].readings
         
@@ -41,7 +42,7 @@ export const getAirTempData = async () => {
     catch (error) {
         console.log(error)
         console.log("refreshing app")
-        setInterval(getNowCastData(), 3000)
+        setInterval(getNowCastData(), 10000)
     }
 }
 
@@ -106,7 +107,6 @@ export const getGeneralData = async () => {
         const dataGeneralForecast = await generalForecastResponse.json()
         const generalWeather = dataGeneralForecast.items[0]
         // When NEA dataset is not blank
-        console.log("generalWeatherData",generalWeather)
         if (Object.keys(generalWeather).length > 0) {
             const period0 = generalWeather.periods[0]
     
@@ -126,8 +126,8 @@ export const getGeneralData = async () => {
     } 
     catch (error) {
         console.log(error)
-        console.log("restarting")
-        setInterval(await getGeneralData(), 5000)
+        console.log("restarting app")
+        setInterval(await getGeneralData(), 10000)
     }
 
 

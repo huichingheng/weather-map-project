@@ -48,7 +48,7 @@ class MyMap extends Component {
                 nearestArea: undefined
             },
             nowCast: [],
-            airTemp:[],
+            airTemp: [],
             generalWeather: undefined,
             windStrength: {
                 high: 20,
@@ -92,13 +92,11 @@ class MyMap extends Component {
             userLocation: { ...this.state.userLocation, lat: userLat, lng: userLng, userAddress: userAddress }
         })
 
-        // Find Nearest Air Temp Station
-       
 
-
-        // Find Nearest Wind Station
-        const nearestStation = getNearestStation(this.state.stations, userLat, userLng)
-        this.setState({ userLocation: { ...this.state.userLocation, nearestStation: nearestStation } })
+        // Find Nearest Wind Station and Air Temp Station
+        const nearestWindStation = getNearestStation(this.state.stations, userLat, userLng)
+        const nearestTempStation = getNearestStation(this.state.airTemp, userLat, userLng)
+        this.setState({ userLocation: { ...this.state.userLocation, nearestStation: nearestWindStation, nearestTempStation: nearestTempStation } })
 
         // Find nearest Area
         const nearestArea = getNearestArea(this.state.nowCast, userLat, userLng)
@@ -110,11 +108,11 @@ class MyMap extends Component {
         const onMapClick = (mapClick) => {
             const nearestArea = getNearestArea(this.state.nowCast, mapClick.lat, mapClick.lng)
             const nearestStation = getNearestStation(this.state.stations, mapClick.lat, mapClick.lng)
+            const nearestTempStation = getNearestStation(this.state.airTemp, mapClick.lat, mapClick.lng)
             this.setState({
-                userLocation: { ...this.state.userLocation, lat: mapClick.lat, lng: mapClick.lng, userAddress: null, nearestArea: nearestArea, nearestStation: nearestStation  }
-            })            
+                userLocation: { ...this.state.userLocation, lat: mapClick.lat, lng: mapClick.lng, userAddress: null, nearestArea: nearestArea, nearestStation: nearestStation, nearestTempStation: nearestTempStation }
+            })
         }
-
         return (
             <div className="main">
                 <div className="right-sidebar">
@@ -130,9 +128,9 @@ class MyMap extends Component {
                             className={"searched-location-details"}
                         /> : null}
 
-                    {(this.state.generalWeather !== undefined 
-                    // && this.state.generalWeather.period[0] !== undefined
-                ) ?
+                    {(this.state.generalWeather !== undefined
+                        // && this.state.generalWeather.period[0] !== undefined
+                    ) ?
                         <GeneralIsland
                             generalWeather={this.state.generalWeather}
                             generalData={this.state.generalWeather.general}
@@ -201,7 +199,7 @@ class MyMap extends Component {
             stations: await getWindStationData()
         })
 
-    
+
         this.setState({
             airTemp: await getAirTempData()
         })
