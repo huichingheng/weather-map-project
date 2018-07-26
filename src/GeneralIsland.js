@@ -19,6 +19,7 @@ const GeneralIsland = (props) => (
                     <ul className="searched-list">
                         <li>North: {props.period0.regions.north}</li>
                         <li>South: {props.period0.regions.south}</li>
+                        <li>Central: {props.period0.regions.central}</li>
                         <li>East: {props.period0.regions.east}</li>
                         <li>West: {props.period0.regions.west}</li>
                     </ul>
