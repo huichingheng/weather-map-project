@@ -1,6 +1,7 @@
 import React from 'react';
 import { directionDisplay } from './directionDisplay';
 
+
 const UserSelectedLocation = (props) => (
     <div className={(props.userLocation.lat !== undefined) ? props.className : ""}>
         {(props.userLocation.lat !== undefined && props.userLocation.nearestArea !== undefined) ? <h4>Location Details ({(props.userLocation.nearestArea.name)})</h4> : null}
