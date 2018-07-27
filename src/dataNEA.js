@@ -1,3 +1,4 @@
+import dummyGeneralData from './dummy24HourData'
 
 export const getNowCastData = async () => {
     try {
@@ -25,15 +26,14 @@ export const getNowCastData = async () => {
 export const getAirTempData = async () => {
     try {
         const airTempResponse = await fetch('https://api.data.gov.sg/v1/environment/air-temperature', { mode: 'cors' })
-
         const dataAirTemp = await airTempResponse.json()
-        
+
         const airTempStation = dataAirTemp.metadata.stations
         const airTempValues = dataAirTemp.items[0].readings
-        
+
         return airTempStation.map((station) => {
-            const airTempValueToAppend = airTempValues.find((object) => {
-                return object.station_id === station.id
+            const airTempValueToAppend = airTempValues.find((airTempMeasuringStation) => {
+                return airTempMeasuringStation.station_id === station.id
             })
             station.airTemp = airTempValueToAppend.value
             return station
@@ -103,13 +103,16 @@ export const getWindStationData = async () => {
 export const getGeneralData = async () => {
     try {
         const generalForecastResponse = await fetch('https://api.data.gov.sg/v1/environment/24-hour-weather-forecast', { mode: 'cors' })
-    
-        const dataGeneralForecast = await generalForecastResponse.json()
+
+        let dataGeneralForecast = await generalForecastResponse.json()
+        if (generalForecastResponse.status !== 200) {
+            dataGeneralForecast = dummyGeneralData
+        }
         const generalWeather = dataGeneralForecast.items[0]
         // When NEA dataset is not blank
         if (Object.keys(generalWeather).length > 0) {
             const period0 = generalWeather.periods[0]
-    
+
             return {
                 general: {
                     forecast: generalWeather.general.forecast,
@@ -122,12 +125,13 @@ export const getGeneralData = async () => {
                 }
             }
         }
-        
-    } 
+
+    }
     catch (error) {
         console.log(error)
-        console.log("restarting app")
+        // console.log("restarting app...")
         setInterval(await getGeneralData(), 10000)
+        return "Error"
     }
 
 
