@@ -191,31 +191,17 @@ class MyMap extends Component {
     async componentDidMount() {
 
         this.setState({
-            generalWeather: await getGeneralData()
-        })
-
-        this.setState({
-            nowCast: await getNowCastData()
-        })
-
-        this.setState({
-            stations: await getWindStationData()
-        })
-
-
-        this.setState({
+            generalWeather: await getGeneralData(),
+            nowCast: await getNowCastData(),
+            stations: await getWindStationData(),
             airTemp: await getAirTempData()
         })
-
 
         // Google Maps search box
         var input = ReactDOM.findDOMNode(this.refs.input);
         this.searchBox = new window.google.maps.places.Autocomplete(input,
             { componentRestrictions: { country: 'sg' } });
         this.searchBox.addListener('place_changed', this.inputChangeHandler);
-
-
-
     }
     componentWillUnmount() {
         // https://developers.google.com/maps/documentation/javascript/events#removing
