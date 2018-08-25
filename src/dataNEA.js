@@ -3,7 +3,6 @@ import dummyGeneralData from './dummy24HourData'
 export const getNowCastData = async () => {
     try {
         const nowCastResponse = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast', { mode: 'cors' })
-        console.log(nowCastResponse.ok)
 
         const dataNowCast = await nowCastResponse.json()
         const forecastArea = dataNowCast.area_metadata
