@@ -24,9 +24,16 @@ const mediaQuery = () => {
   } else return 11.5;
 };
 
+const DEFAULT_MAP_CENTER = {
+    lat:1.35,
+    lng: 103.82007
+}
+
+const SINGAPORE = "sg"
+
 class MyMap extends Component {
   static defaultProps = {
-    center: [1.35, 103.82007],
+    center: [DEFAULT_MAP_CENTER.lat, DEFAULT_MAP_CENTER.lng],
     zoom: mediaQuery()
   };
 
@@ -40,8 +47,8 @@ class MyMap extends Component {
     this.state = {
       stations: [],
       center: {
-        lat: 1.35,
-        lng: 103.82007
+        lat: DEFAULT_MAP_CENTER.lat,
+        lng: DEFAULT_MAP_CENTER.lng
       },
       userLocation: {
         nearestStation: undefined,
@@ -250,7 +257,7 @@ class MyMap extends Component {
     // Google Maps search box
     var input = ReactDOM.findDOMNode(this.refs.input);
     this.searchBox = new window.google.maps.places.Autocomplete(input, {
-      componentRestrictions: { country: "sg" }
+      componentRestrictions: { country: SINGAPORE }
     });
     this.searchBox.addListener("place_changed", this.inputChangeHandler);
   }
