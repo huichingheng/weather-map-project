@@ -1,1 +1,5 @@
-{}
+{
+  "chromeWebSecurity": false,
+  "baseUrl": "https://kod2nd-weather-app.netlify.com",
+  "projectId": "n9t195"
+}
